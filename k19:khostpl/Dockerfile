@@ -1,6 +1,6 @@
 FROM fedora:27
 LABEL autor="@marcgc"
-LABEL description="cliente kerberos"
+LABEL description="client kerberos amb ldap"
 
 RUN dnf -y install krb5-workstation pam_krb5 passwd \
         nss-pam-ldapd authconfig 
