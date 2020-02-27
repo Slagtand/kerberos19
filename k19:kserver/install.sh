@@ -12,7 +12,12 @@ do
     kadmin.local -q "addprinc -pw kuser$num kuser$num"
 done
 
-users=["jordi", "marta", "anna", "pere", "pau"]
+for num in {01..10}
+do
+    kadmin.local -q "addprinc -pw kuser$num user$num"
+done
+
+users="jordi marta anna pere pau"
 for user in $users
 do
     kadmin.local -q "addprinc -pw k$user $user"
