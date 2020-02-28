@@ -90,3 +90,64 @@ docker run --rm --name kserver.edt.org -h kserver.edt.org --net mynet -d marcgc/
     ```bash
     
     ```
+
+## k19:sshdpl
+
+
+
+* Accedim al servidor kerberos
+  
+  ```bash
+  [root@sshd docker]# kadmin -p admin
+  Authenticating as principal admin with password.
+  Password for admin@EDT.ORG: 
+  kadmin:  addprinc -randkey host/sshd.edt.org
+  WARNING: no policy specified for host/sshd.edt.org@EDT.ORG; defaulting to no policy
+  Principal "host/sshd.edt.org@EDT.ORG" created.
+  kadmin:  ktadd -k /etc/krb5.keytab host/sshd.edt.org
+  
+  ```
+
+* Descomentem i fiquem a **yes** les següents línies a */etc/ssh/ssh_config* del **client**:
+  
+  ```bash
+     GSSAPIAuthentication yes
+     GSSAPIDelegateCredentials yes
+  ```
+
+* En el cas del **servidor** és el fitxer */etc/ssh/sshd_config*
+  
+  ```bash
+  # Kerberos options
+  KerberosAuthentication yes
+  #KerberosOrLocalPasswd yes
+  KerberosTicketCleanup yes
+  #KerberosGetAFSToken no
+  #KerberosUseKuserok yes
+  ```
+
+* Connectem des del host al servidor a amazon:
+  
+  * Editar la resol·lució de noms amb la ip de la màquina a amazon:
+    
+    * **NOTA:** sshd.edt.org **HA** d'estar el primer, si no no fa la resol·lució bé i peta.
+    
+    ```bash
+    3.82.128.195  sshd.edt.org kserver.edt.org ldap.edt.org
+    ```
+  
+  * Ens connectem com a pere al servidor **sshd.edt.org** (o com li haguem dit, però amb el fqdn .edt.org)
+    
+    ```bash
+    [root@i07 ~]# kinit pere
+    Password for pere@EDT.ORG: 
+    [root@i07 ~]# klist
+    Ticket cache: FILE:/tmp/krb5cc_0
+    Default principal: pere@EDT.ORG
+    
+    Valid starting       Expires              Service principal
+    02/28/2020 10:26:12  02/29/2020 10:26:11  krbtgt/EDT.ORG@EDT.ORG
+    [root@i07 ~]# ssh pere@sshd.edt.org -p 1022
+    ```
+  
+  * Si ho hem fet tot bé, ens accedirà directament
