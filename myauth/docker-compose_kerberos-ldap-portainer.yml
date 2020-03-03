@@ -1,0 +1,30 @@
+version: "3"
+services:
+  kserver:
+    image: edtasixm11/k19:kserver
+    container_name: kserver.edt.org
+    hostname: kserver.edt.org
+    ports:
+      - "88:88"
+      - "464:464"
+      - "749:749"
+    networks:
+      - mynet
+  ldap:
+    image: edtasixm06/ldapserver:18group
+    container_name: ldap.edt.org
+    hostname: ldap.edt.org
+    ports: 
+      - "389:389"
+    networks:
+      - mynet
+  portainer:
+    image: portainer/portainer
+    ports:
+      - "9000:9000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - mynet
+networks:
+  mynet:
