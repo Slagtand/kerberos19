@@ -93,8 +93,6 @@ docker run --rm --name kserver.edt.org -h kserver.edt.org --net mynet -d marcgc/
 
 ## k19:sshdpl
 
-
-
 * Accedim al servidor kerberos
   
   ```bash
@@ -105,7 +103,6 @@ docker run --rm --name kserver.edt.org -h kserver.edt.org --net mynet -d marcgc/
   WARNING: no policy specified for host/sshd.edt.org@EDT.ORG; defaulting to no policy
   Principal "host/sshd.edt.org@EDT.ORG" created.
   kadmin:  ktadd -k /etc/krb5.keytab host/sshd.edt.org
-  
   ```
 
 * Descomentem i fiquem a **yes** les següents línies a */etc/ssh/ssh_config* del **client**:
